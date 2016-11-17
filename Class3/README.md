@@ -79,7 +79,7 @@ El m√©todo tearDown es un m√©todo proporcionado por phpUnit para ser ejecutado u
 Veamos un ejemplo de test que origina la necesidad de tearDown ( Class3/example3Test.php )
 
 
-    lass example3Test extends \PHPUnit\Framework\TestCase 
+    Class example3Test extends \PHPUnit\Framework\TestCase 
     {
 
         public function testCanCreateDir()
@@ -106,11 +106,47 @@ el m√©todo tearDown definido en nuestro testCase podr√≠amos hacer:
     }
     ...
 
-### setUpBeforeClass()
+## setUpBeforeClass() y  tearDownAfterClass()
 
+Adicionalmente a setUp() y tearDown() existen dos m√todos que de ser declarados en nuestros test cases son ejecutados al iniciar el set de pruebas ( antes de ejecutar el primer test )  y al finalizar ( luego de que todos los tests han sido ejecutados ) , estos m√©todos son setupBeforeClass() y tearDownAfterClass(), para demostrar el funcionamiento de estos √todos no se me ocurre ejecutar otro test m√s explicito que el que aparece en la documentaci√n de phpunit en la p√gina 28, encontrar√° el c√≥digo completo en el fichero exampleTest4.php de esta clase:
 
-### tearDownAfterClass()
- 
+    Class example4Test extends \PHPUnit\Framework\TestCase 
+    {
+
+        public static function setUpBeforeClass()
+        {
+            var_dump( __METHOD__ );
+        }
+
+        public function testOne()
+        {
+            var_dump( __METHOD__ );
+        }
+        
+        public function testTwo()
+        {
+            var_dump( __METHOD__ );
+        }
+
+        public static function tearDownAfterClass()
+        {
+            var_dump( __METHOD__ );
+        }
+    }
+
+Obtendr√° como respuesta algo parecido a : 
+
+    string(30) "example4Test::setUpBeforeClass"
+    .string(21) "example4Test::testOne"
+    .2 / 2 (100%)string(21) "example4Test::testTwo"
+    string(32) "example4Test::tearDownAfterClass"
+
+Demostrando que estos m√©todos se ejecutan una √nica vez antes de iniciar o finalizar el test case.
+
+### Para pensar 
+
+¬ Por qu√© los m√©todos setUpBeforeClass() y tearDownAfterClass() deben de ser declarados como est√ticos? ¬ Cual es la raz√≥n ?
+
 ## Ejercicios 
 
 Cree una nuevo testCase que permita setear el objeto Car, el objeto persona, y el objeto repairment como propiedades del testCase para luego poder ser utilizados por nuestros tests. Cree la siguiente bater√≠a de pruebas:
